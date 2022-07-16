@@ -57,23 +57,8 @@ join album a on a.id = pa.performer_id
 join track t on t.album_id = a.id
 where t.duration = (select min(duration) from track)
 
---найти альбомы с наименьшим количеством треков
-select a."name" an
-from album a
-join track t on t.album_id = a.id
-group by a.name
-having count(a.name) = (
-	select min(quan)
-	from (
-		select count(t2.album_id) as quan
-		from album a2 
-		join track t2 on a2.id = t2.album_id
-		group by a2."name"
-		)
-	as foo
-	)
 	
--- альбомы с наименьшим количеством треков вариант 2
+-- альбомы с наименьшим количеством треков
 select a."name" album_name
 from album a, track t
 where t.album_id = a.id
